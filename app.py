@@ -27,12 +27,14 @@ if response.status_code == 200:
     title = soup.title.string
     print("Title of the page:", title)
 
+    # Extract the links
+    links = [a['href'] for a in soup.find_all('a', href=True)]
+    
+    
     # Get main content (targeting specific elements)
     content_elements = soup.select("h1, h2, h3, h4, p, ul, ol")  # Select headings and paragraphs
     all_text = "\n".join(element.get_text(separator=' ', strip=True) for element in content_elements)
 
-    # Extract the links
-    links = [a['href'] for a in soup.find_all('a', href=True)]
 
     # Create a Langchain Document
     document = Document(
@@ -55,13 +57,14 @@ if response.status_code == 200:
     query_result = vector_store.similarity_search_with_score("What does torch.tensor do?", k=5)
     
     # Extract the most relevant document from the query result
-    top_document = query_result[0][0].page_content  # The content of the top document
+    top_document = query_result[0][0].page_content 
 
     # Initialize the Ollama LLM
     llm = OllamaLLM(model="llama3.2:1b")
 
-    # Use the LLM to generate an answer based on the top document
     llm_query = f"Based on the following content, explain what torch.tensor does:\n\n{top_document}"
     
+    #invoke llm 
     llm_answer = llm.invoke(llm_query)
     print(llm_answer)   
+    
