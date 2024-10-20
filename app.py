@@ -1,68 +1,67 @@
 import requests 
+import warnings
 from bs4 import BeautifulSoup 
+warnings.filterwarnings('ignore')
 from langchain.schema import Document
 from langchain_ollama import OllamaLLM
 from langchain_community.vectorstores import FAISS 
-from langchain.indexes import VectorstoreIndexCreator
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-url = 'https://pytorch.org/docs/stable/torch.html#tensors'
+# Fetch the webpage content
+url = 'https://pytorch.org/docs/stable/tensors.html'
 response = requests.get(url)
-
 
 if response.status_code == 200:
     html_content = response.text
-    
+
+    # Parse the HTML using BeautifulSoup
     soup = BeautifulSoup(html_content, 'html.parser')
-    soup.prettify()
-    
-    title = soup.title.string 
-    #print(title)
-    
-    all_text = soup.get_text()
-    #print(all_text)
-    
+
+    # Remove unwanted elements
+    for class_name in ["pytorch-body", "pytorch-left-menu-search"]:
+        for unwanted in soup.find_all(class_=class_name):
+            unwanted.decompose()
+
+    # Extract the title
+    title = soup.title.string
+    print("Title of the page:", title)
+
+    # Get main content (targeting specific elements)
+    content_elements = soup.select("h1, h2, h3, h4, p, ul, ol")  # Select headings and paragraphs
+    all_text = "\n".join(element.get_text(separator=' ', strip=True) for element in content_elements)
+
+    # Extract the links
     links = [a['href'] for a in soup.find_all('a', href=True)]
-    #print('Links Found:', links)
-    
-    data  = { 
-             'title' : title,
-             'text' : all_text,
-             'links' : links}
 
-
-    #parse into Langchain
+    # Create a Langchain Document
     document = Document(
-        page_content=data['text'], 
-        metadata = {
-            'title' : data['title'],
-            'links' : data['links'],
+        page_content=all_text, 
+        metadata={
+            'title': title,
+            'links': links,
         }
     )
-
     
-    
-    #retrival [splitting the HTML data]
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size = 200, chunk_overlap = 20) 
-    
+    # Split the document into smaller chunks
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=200, chunk_overlap=20)
     documents = text_splitter.split_documents([document]) 
-     #print(f"Chunks created: {len(documents)}")
     
-    
-    #embedding & vector database
+    # Create embeddings and vector database using FAISS
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-     
     vector_store = FAISS.from_documents(documents, embeddings)
-     
     
-    index_creator = VectorstoreIndexCreator(embedding=embeddings)
+    # Perform similarity search on FAISS vector store
+    query_result = vector_store.similarity_search_with_score("What does torch.tensor do?", k=5)
+    
+    # Extract the most relevant document from the query result
+    top_document = query_result[0][0].page_content  # The content of the top document
 
-    # Index the documents
-    index = index_creator.from_documents(documents=documents)
-
+    # Initialize the Ollama LLM
     llm = OllamaLLM(model="llama3.2:1b")
-    query_result = index.query("What is torch.nn?",llm=llm)
+
+    # Use the LLM to generate an answer based on the top document
+    llm_query = f"Based on the following content, explain what torch.tensor does:\n\n{top_document}"
     
-    print(query_result)
+    llm_answer = llm.invoke(llm_query)
+    print(llm_answer)
