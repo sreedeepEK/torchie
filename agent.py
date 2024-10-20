@@ -11,5 +11,5 @@ web_agent = Agent(
     tools=[DuckDuckGo()],
     markdown=True
 )
-
+   
 web_agent.print_response("what does torch.tensor do?",stream=True)

@@ -64,4 +64,4 @@ if response.status_code == 200:
     llm_query = f"Based on the following content, explain what torch.tensor does:\n\n{top_document}"
     
     llm_answer = llm.invoke(llm_query)
-    print(llm_answer)
+    print(llm_answer)   
