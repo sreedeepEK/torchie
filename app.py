@@ -27,7 +27,7 @@ embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-
 vector_store = FAISS.from_documents(documents, embeddings)
 
 
-query_result = vector_store.similarity_search_with_score("What does torch.tensor do?", k=5)
+query_result = vector_store.similarity_search_with_score(k=5)
 
 
 top_document = query_result[0][0].page_content 
