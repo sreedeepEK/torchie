@@ -8,7 +8,7 @@ from langchain.schema import Document
 from langchain_ollama import OllamaLLM
 from langchain_community.vectorstores import FAISS 
 from langchain_huggingface import HuggingFaceEmbeddings 
-from scraper import extract_documentation, save_to_text 
+from scraper import extract_documentation, save_text_to_folder 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 load_dotenv()
@@ -17,14 +17,18 @@ load_dotenv()
 device = "cuda" if torch.cuda.is_available() else "cpu"
 device 
 
-def read_docs(filename='documentation.txt'):
-    with open(filename,'r',encoding='utf-8') as text_file:
-        content = text_file.read()
-        
-    return content
+from pathlib import Path
 
+def read_docs_from_folder(folder_path='docs'):
+    all_text = ""
+    for file_path in Path(folder_path).rglob('*.txt'):
+        with open(file_path, 'r', encoding='utf-8') as text_file:
+            content = text_file.read()
+            all_text += content 
+    return all_text
+  
 
-documentation = read_docs()
+documentation = read_docs_from_folder()
 document = Document(page_content=documentation)
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=200)
