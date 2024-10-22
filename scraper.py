@@ -14,11 +14,11 @@ def extract_documentation(url):
 
     return documentation
 
-def save_to_text(documentation, filename='documentation.txt'):
+def save_to_text(documentation, filename='documentation1.txt'):
     with open(filename, 'w',encoding='utf-8') as text_file:
         text_file.write(documentation)
         
 
-url = "https://pytorch.org/docs/stable/tensors.html"
+url = "https://pytorch.org/docs/stable/nn.functional.html"
 documentation = extract_documentation(url)
 save_to_text(documentation)
