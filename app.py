@@ -8,7 +8,7 @@ from langchain.schema import Document
 from langchain_ollama import OllamaLLM
 from langchain_community.vectorstores import FAISS 
 from langchain_huggingface import HuggingFaceEmbeddings 
-from scraper import extract_documentation, save_text_to_folder 
+from scraper import extract_and_save_content, extract_function_links
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 load_dotenv()
