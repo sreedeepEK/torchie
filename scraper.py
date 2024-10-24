@@ -2,8 +2,6 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-
-# Extract main page and content inside it 
 def extract_documentation(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -49,14 +47,27 @@ def save_text_to_folder(documentation, title, folder_name='docs'):
 
 
 # specified url 
-url = "https://pytorch.org/docs/stable/tensors.html"
-documentation, title, internal_links = extract_documentation(url)
 
+urls = []
+for url in urls:
+    documentation, title, internal_links = extract_documentation(url)
+    save_text_to_folder(documentation, title)
 
-save_text_to_folder(documentation, title)
 
 for link in internal_links:
     documentation, title, _ = extract_documentation(link)
     save_text_to_folder(documentation, title)
 
 
+
+#already scraped 
+
+# "https://pytorch.org/docs/stable/nn.html",
+# "https://pytorch.org/docs/stable/nn.functional.html",
+# "https://pytorch.org/docs/stable/torch.html",
+# "https://pytorch.org/docs/stable/tensors.html"
+# https://pytorch.org/docs/stable/tensor_view.html 
+# https://pytorch.org/docs/stable/autograd.html
+# https://pytorch.org/docs/stable/cpu.html
+# https://pytorch.org/docs/stable/cuda.html
+# https://pytorch.org/docs/stable/utils.html

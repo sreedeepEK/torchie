@@ -1,32 +1,29 @@
 import time 
 import torch 
 import warnings
+from pathlib import Path
 from dotenv import load_dotenv
 warnings.filterwarnings('ignore')
 from langchain_groq import ChatGroq 
 from langchain.schema import Document
-from langchain_ollama import OllamaLLM
-from langchain_community.vectorstores import FAISS 
-from langchain_huggingface import HuggingFaceEmbeddings 
-from scraper import extract_and_save_content, extract_function_links
+from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from embeddings import create_and_save_embeddings, load_embeddings 
+ 
 
 load_dotenv()
 
-
 device = "cuda" if torch.cuda.is_available() else "cpu"
-device 
 
-from pathlib import Path
 
-def read_docs_from_folder(folder_path='docs'):
+def read_docs_from_folder(folder_path='/docs/'):
     all_text = ""
     for file_path in Path(folder_path).rglob('*.txt'):
         with open(file_path, 'r', encoding='utf-8') as text_file:
             content = text_file.read()
             all_text += content 
     return all_text
-  
+
 
 documentation = read_docs_from_folder()
 document = Document(page_content=documentation)
@@ -34,14 +31,26 @@ document = Document(page_content=documentation)
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=200)
 documents = text_splitter.split_documents([document]) 
 
+# Call the function to create and save embeddings
+create_and_save_embeddings(documents, device=device)
 
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",model_kwargs = {"device": device})
 
-vector_store = FAISS.from_documents(documents, embeddings)
+# Load the embeddings
+vector_store = load_embeddings()
 
-#parse llm 
+# Define a prompt template
+PROMPT_TEMPLATE = """
+You are a helpful assistant who have great Knowledge about PyTorch documentation.
+
+User Query: {user_input}
+Context: {context}
+
+Please provide a detailed response based on the context.
+"""
+
+# Parse LLM 
 llm = ChatGroq(model='llama-3.2-1b-preview',
-               temperature=0.0,
+               temperature=0.5,
                max_retries=2)
 
 print("\n")
@@ -51,19 +60,17 @@ print("Type 'exit' to quit the chat.")
 while True:
     user_input = input("You: ")
     
-    if user_input.lower() in ['exit', 'quit','q']:
+    if user_input.lower() in ['exit', 'quit', 'q']:
         print("Exiting the chat. Goodbye!")
         break
     
-  
     query_result = vector_store.similarity_search_with_score(query=user_input, k=5)
     
-
     if query_result:
         top_document = query_result[0][0].page_content 
 
-
-        llm_query = f"{user_input}\nContext:\n{top_document}"
+      
+        llm_query = PROMPT_TEMPLATE.format(user_input=user_input, context=top_document)
         start_time = time.time()
         
         # Invoke the LLM
@@ -75,4 +82,7 @@ while True:
         print("\n")
         print(f"Time taken: {elapsed_time:.2f} seconds")  
     else:
-        pass 
+        print("No relevant documents found.")
+        
+        
+        
