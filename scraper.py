@@ -48,7 +48,9 @@ def save_text_to_folder(documentation, title, folder_name='docs'):
 
 # specified url 
 
-urls = []
+urls = ["https://pytorch.org/docs/stable/torch_environment_variables.html",
+        "https://pytorch.org/docs/stable/index.html"
+       ]
 for url in urls:
     documentation, title, internal_links = extract_documentation(url)
     save_text_to_folder(documentation, title)
@@ -57,17 +59,3 @@ for url in urls:
 for link in internal_links:
     documentation, title, _ = extract_documentation(link)
     save_text_to_folder(documentation, title)
-
-
-
-#already scraped 
-
-# https://pytorch.org/docs/stable/nn.html
-# https://pytorch.org/docs/stable/nn.functional.html
-# https://pytorch.org/docs/stable/torch.html
-# https://pytorch.org/docs/stable/tensors.html
-# https://pytorch.org/docs/stable/tensor_view.html 
-# https://pytorch.org/docs/stable/autograd.html
-# https://pytorch.org/docs/stable/cpu.html
-# https://pytorch.org/docs/stable/cuda.html
-# https://pytorch.org/docs/stable/utils.html
