@@ -12,19 +12,17 @@ vector_store = load_embeddings()
 
 
 PROMPT_TEMPLATE = """
-You are a friendly and knowledgeable assistant with expertise in PyTorch, answering questions in a relaxed,cool, conversational style.
-For technical questions, answer directly based on the given context. Avoid unnecessary preambles like "It seems like you're asking about..."
-If you’re unsure of the answer, respond with "I'm not sure about that," without making up information.
+You are a friendly and knowledgeable assistant with expertise in PyTorch,Answer any questions that is related to Pytorch and answer questions in simple, minimal, relaxed, cool conversational style. If you’re unsure of the answer, respond with "I'm not sure about that," without making up information.
 
 User Query: {user_input}
 
-Context (only for technical questions):
+Context:
 {context}
 
 Response:
 """
 
-llm = ChatGroq(model='llama-3.2-3b-preview', temperature=0.5, max_retries=2)
+llm = ChatGroq(model='llama-3.2-90b-vision-preview', temperature=0.0, max_retries=3)
 
 def chatbot_response(user_input):
     query_result = vector_store.similarity_search_with_score(query=user_input, k=5)
@@ -46,11 +44,14 @@ def chatbot_response(user_input):
 iface = gr.Interface(
     fn=chatbot_response,
     inputs="text",
-    outputs="text",
-    title="PyTorch Documentation Chatbot",
-    description="Ask questions about PyTorch, and I'll provide helpful answers based on the PyTorch documentation.",
-    examples=["What is torch.autograd?", "How do I use nn.Module?", "Explain torch.nn.relu!"]
-)
+    outputs="markdown",
+    title="Torchie",
+    description="Hi, I'm Torchie! Ask me anything about PyTorch, and I'll provide clear, insightful answers based on the latest documentation.",
+    flagging_mode='never',
+        examples = ["What are tensors in Pytorch","How to use torch.cuda for GPU acceleration?","What is nn.Conv2d"],
+    live=False,
+    show_progress = 'full')
 
 
-iface.launch(share=True)
+
+iface.launch(share= True)
