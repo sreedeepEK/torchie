@@ -15,10 +15,10 @@ load_dotenv()
 # Detect device
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-# Load the pre-saved FAISS index (vector store)
-vector_store = load_embeddings()  # Load the embeddings from the FAISS index
 
-# Define a prompt template for the assistant
+vector_store = load_embeddings()  
+
+
 PROMPT_TEMPLATE = """
 You are a helpful assistant who has great knowledge about PyTorch documentation.
 
@@ -28,10 +28,10 @@ Context: {context}
 Please provide a detailed response based on the context.
 """
 
-# Initialize the language model
+
 llm = ChatGroq(model='llama-3.2-1b-preview', temperature=0.5, max_retries=2)
 
-# Start the chat
+
 print("\n")
 print("Welcome to the PyTorch Documentation Chatbot!") 
 print("Type 'exit' to quit the chat.")
@@ -43,18 +43,18 @@ while True:
         print("Exiting the chat. Goodbye!")
         break
     
-    # Perform similarity search
+   
     query_result = vector_store.similarity_search_with_score(query=user_input, k=5)
     
     if query_result:
-        # Extract the top relevant document
+       
         top_document = query_result[0][0].page_content 
         
-        # Format the query for the LLM with context
+      
         llm_query = PROMPT_TEMPLATE.format(user_input=user_input, context=top_document)
         start_time = time.time()
         
-        # Get response from the LLM
+ 
         llm_answer = llm.invoke(llm_query)
         print("Bot:", llm_answer.content)
         
