@@ -2,11 +2,12 @@ import time
 import torch 
 import warnings
 from dotenv import load_dotenv
+from loader import load_embeddings  
 from langchain_groq import ChatGroq 
 from langchain.schema import Document
-from langchain_community.document_loaders import DirectoryLoader
+from langchain.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from loader import load_embeddings  # Adjust the import according to your file structure
+
 
 warnings.filterwarnings('ignore')
 load_dotenv()

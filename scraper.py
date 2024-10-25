@@ -62,10 +62,10 @@ for link in internal_links:
 
 #already scraped 
 
-# "https://pytorch.org/docs/stable/nn.html",
-# "https://pytorch.org/docs/stable/nn.functional.html",
-# "https://pytorch.org/docs/stable/torch.html",
-# "https://pytorch.org/docs/stable/tensors.html"
+# https://pytorch.org/docs/stable/nn.html
+# https://pytorch.org/docs/stable/nn.functional.html
+# https://pytorch.org/docs/stable/torch.html
+# https://pytorch.org/docs/stable/tensors.html
 # https://pytorch.org/docs/stable/tensor_view.html 
 # https://pytorch.org/docs/stable/autograd.html
 # https://pytorch.org/docs/stable/cpu.html
