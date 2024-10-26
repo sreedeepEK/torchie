@@ -1,3 +1,5 @@
+nest_asyncio
+playwright
 streamlit 
 langchain 
 langchain_ollama 
@@ -6,6 +8,6 @@ beautifulsoup4
 lxml 
 html5lib 
 python-dotenv
-
-nest_asyncio
-playwright
+langchain_groq
+langchain_community
+langchain_huggingface

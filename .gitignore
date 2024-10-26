@@ -1,3 +1,5 @@
 .env 
 docs/
-gradio/ 
+.gradio/ 
+__pycache__/
+.github/
