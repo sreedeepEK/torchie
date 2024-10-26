@@ -52,7 +52,7 @@ iface = gr.Interface(
     title="Torchie",
     description="Hi, I'm Torchie! Ask me anything about PyTorch, and I'll provide clear, insightful answers based on the documentation.",
     flagging_mode='never',
-    examples=["Explain torch.autograd","How to use torch.cuda for GPU acceleration?","How to implement a neural net in PyTorch?",],
+    examples=["What is nn.Conv2d","Explain torch.autograd","How to use torch.cuda for GPU acceleration?"],
 
     submit_btn="Submit",
     show_progress='full',
