@@ -6,7 +6,7 @@ Torchie is a tool designed to extract and retrieve information efficiently from 
 ### Project Status
 This project is currently under development. Features and functionalities are being continuously added.
 
-#### Planned Features and Functionalities
+### Planned Features and Functionalities
 
 - **Keyword Search**
 Allow users to search for specific keywords or phrases in the PyTorch documentation, providing quick access to relevant sections.
