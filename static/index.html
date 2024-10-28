@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torchie - PyTorch Assistant</title>
+    <script>
+        async function sendQuery() {
+            const userInput = document.getElementById("userInput").value;
+            const responseDiv = document.getElementById("response");
+
+            const res = await fetch('/query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_input: userInput })
+            });
+
+            const data = await res.json();
+            responseDiv.innerHTML = `<strong>Response:</strong> ${data.response}<br><strong>Time taken:</strong> ${data.time_taken.toFixed(2)} seconds`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Torchie - Ask me anything about PyTorch!</h1>
+    <input type="text" id="userInput" placeholder="Type your question here">
+    <button onclick="sendQuery()">Submit</button>
+    <div id="response"></div>
+</body>
+</html>
