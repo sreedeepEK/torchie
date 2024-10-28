@@ -1,12 +1,12 @@
 ## Torchie: The unofficial Pytorch Chatbot
 
-#### Description
-Torchie is a tool designed to extract and retrieve information efficiently from PyTorch documentation. It aims to navigate the extensive PyTorch resources and provide quick access to relevant insights, making it easier for users to find the information they need without any hassle
+### Description
+Torchie is a tool designed to extract and retrieve information efficiently from PyTorch documentation. It aims to navigate the extensive PyTorch resources and provide quick access to relevant insights, making it easier for users to find the information they need without any hassle. [Click here to see the live demo.](https://huggingface.co/spaces/sreedeepEK/torchie)
 
-#### Project Status
+### Project Status
 This project is currently under development. Features and functionalities are being continuously added.
 
-#### Planned Features and Functionalities
+### Planned Features and Functionalities
 
 - **Keyword Search**
 Allow users to search for specific keywords or phrases in the PyTorch documentation, providing quick access to relevant sections.
@@ -27,7 +27,7 @@ Provide information on how PyTorch integrates with other libraries like NumPy, S
 Enable users to check if certain functions or features are available in different versions of PyTorch, assisting in maintaining code compatibility.
 
 
-#### How to Run the Torchie App 
+### How to Run the Torchie App 
 
 - Prerequisites
 
@@ -67,7 +67,7 @@ Enable users to check if certain functions or features are available in differen
 
 - Run the Application
 
-    Start the Flask Server: Run the following command to start the Flask server:
+    Start the Gradio Server: Run the following command to start the server:
 
     ```bash
 
@@ -87,12 +87,6 @@ Enable users to check if certain functions or features are available in differen
     http://127.0.0.1:5000
     ```
 
-#### LICENSE
+### License
 
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Torchie has a MIT license, as found in [LICENSE](https://github.com/sreedeepEK/torchie/blob/main/LICENSE) file.
