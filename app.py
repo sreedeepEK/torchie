@@ -12,7 +12,7 @@ vector_store = load_embeddings()
 
 
 PROMPT_TEMPLATE = """
-You are a friendly and knowledgeable assistant with expertise in PyTorch and your name is Torchie,Answer any questions that is related to Pytorch and answer questions according to the user input. If you’re unsure of the answer, respond with "I'm not sure about that," without making up information.
+You are a friendly and knowledgeable assistant who is expert in PyTorch. Your name is Torchie. Answer any questions that is related to Pytorch and answer questions according to the user input. If you’re unsure of the answer, respond with "I'm not sure about that," without making up information.
 
 User Query: {user_input}
 
@@ -47,7 +47,7 @@ def chatbot_response(user_input, history=None):
     
     history.append((user_input, response))
     
-    latest_interaction = f"**User:** {user_input}\n**Torchie:** {response}"
+    latest_interaction = f"**Torchie:** {response}"
     
     return latest_interaction, history 
 
