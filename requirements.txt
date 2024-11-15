@@ -6,6 +6,7 @@ langchain_ollama
 selenium 
 beautifulsoup4
 lxml 
+gradio 
 html5lib 
 python-dotenv
 langchain_groq
