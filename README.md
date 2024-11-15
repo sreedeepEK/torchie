@@ -3,30 +3,6 @@
 ### Description
 Torchie is a tool designed to extract and retrieve information efficiently from PyTorch documentation. It aims to navigate the extensive PyTorch resources and provide quick access to relevant insights, making it easier for users to find the information they need without any hassle. [Click here to try Torchie.](https://huggingface.co/spaces/sreedeepEK/torchie)
 
-### Demo
-![demo](https://github.com/user-attachments/assets/82d301cc-6943-4553-9793-4e19e25f57cc)
-
-### Planned Features and Functionalities
-
-- **Keyword Search**
-Allow users to search for specific keywords or phrases in the PyTorch documentation, providing quick access to relevant sections.
-
-- **Code Examples**
-Provide users with relevant code snippets and examples based on their queries, making it easier to understand how to implement specific functionalities in PyTorch.
-
-- **FAQ Section**
-Create a comprehensive FAQ section that addresses common questions and issues users face when using PyTorch.
-
-- **Tutorial Recommendations**
-Suggest tutorials and guides based on user queries, helping users learn specific aspects of PyTorch.
-
-- **Integration with Other Libraries**
-Provide information on how PyTorch integrates with other libraries like NumPy, SciPy, and TensorBoard, helping users leverage a broader ecosystem.
-
-- **Version Compatibility Checker**
-Enable users to check if certain functions or features are available in different versions of PyTorch, assisting in maintaining code compatibility.
-
-
 ### How to Run the Torchie App 
 
 - Prerequisites
