@@ -78,3 +78,4 @@ if len(st.session_state['history']) > 1:  # After second question is asked
     st.write(f"**User:** {user_query}")
     st.write(f"**Torchie:** {bot_response}")
 
+ 
