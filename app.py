@@ -1,7 +1,7 @@
 import time
 import warnings
 warnings.filterwarnings('ignore')
-import gradio as gr
+import streamlit as st
 from dotenv import load_dotenv
 from loader import load_embeddings
 from langchain_groq import ChatGroq
@@ -12,12 +12,10 @@ vector_store = load_embeddings()
 
 # Prompt template for the chatbot
 PROMPT_TEMPLATE = """
-You are a friendly and knowledgeable assistant who is proficent in PyTorch. Answer any questions that is related to Pytorch and answer questions according to the user input. If you’re unsure of the answer, respond with "I'm not sure about that," without making up answers.   
-
-Emulate a deeply introspective, methodical reasoning style that emphasizes thorough exploration, self-questioning, and iterative analysis. Approach tasks with a stream-of-consciousness internal dialogue that breaks down complex thoughts into atomic steps, embracing uncertainty and continuous revision. The user has included the following content examples. 
+You are a friendly and knowledgeable assistant who is proficient in PyTorch. Answer any questions that is related to PyTorch and answer questions according to the user input. If you’re unsure of the answer, respond with "I'm not sure about that," without making up answers.   
 
 
-After your conclusion, brief the entire summary in good neat conversational and make them understand.
+After your conclusion, brief the entire summary in good neat conversational and make them understand under 200 lines.
  
 User Query: {user_input}
 
@@ -49,7 +47,7 @@ def chatbot_response(user_input, history):
         # Format the response
         response = f"{llm_answer.content}\n\nResponse time: {elapsed_time:.2f} seconds"
     else:
-        response = "No relevant documents found."
+        response = "I'm sorry, I couldn't find any relevant information."
 
     # Update the chat history
     history.append((user_input, response))
@@ -57,25 +55,26 @@ def chatbot_response(user_input, history):
     # Return the latest interaction and updated history
     return history
 
-# Gradio chat interface
-with gr.Blocks() as demo:
-    gr.Markdown("# Torchie - Your PyTorch Assistant")
-    gr.Markdown("Hi, I'm Torchie! Ask me anything about PyTorch, and I'll provide clear, insightful answers based on the documentation.")
+# Streamlit chat interface
+# Streamlit chat interface
+st.title("Torchie - Your PyTorch Assistant")
+st.write("Hi! I'm Torchie, your friendly PyTorch assistant. Ask me anything about PyTorch, and I'll do my best to help.")
 
-    # Chatbot interface
-    chatbot = gr.Chatbot(label="Chat with Torchie")
-    msg = gr.Textbox(label="Type your question here", placeholder="Ask me anything about PyTorch...")
-    clear = gr.Button("Clear")
+# Initialize session state for chat history if not already present
+if 'history' not in st.session_state:
+    st.session_state['history'] = []
 
-    # Function to handle user input
-    def respond(message, chat_history):
-        chat_history = chat_history or []
-        bot_response = chatbot_response(message, chat_history)
-        return bot_response
+# User input
+user_input = st.text_input("Your Question:", placeholder="Type your PyTorch-related question here...")
 
-    # Connect the input and output to the chatbot
-    msg.submit(respond, [msg, chatbot], chatbot)
-    clear.click(lambda: None, None, chatbot, queue=False)
+# Handle user input and display response
+if st.button("Submit") and user_input:
+    st.session_state['history'] = chatbot_response(user_input, st.session_state['history'])
 
-# Launch the interface
-demo.launch(share=True)
+# Display only the most recent answer (after the 2nd question)
+if len(st.session_state['history']) > 1:  # After second question is asked
+    # Get the most recent user query and bot response
+    user_query, bot_response = st.session_state['history'][-1]
+    st.write(f"**User:** {user_query}")
+    st.write(f"**Torchie:** {bot_response}")
+
