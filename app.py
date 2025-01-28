@@ -9,8 +9,10 @@ load_dotenv()
 vector_store = load_embeddings()
 
 PROMPT_TEMPLATE = """
-You are a friendly and knowledgeable assistant who is proficient in PyTorch. Answer any questions that are related to PyTorch and answer questions according to the user input. If you’re unsure of the answer, respond with "I'm not sure about that," without making up answers.   
+You are a friendly and knowledgeable assistant who is proficient in PyTorch. Answer any questions that are related to PyTorch and answer questions according to the user input. If you’re unsure of the answer, respond with "I'm not sure about that," without making up answers. Make the user understand the concept by using simple english after the definition. 
 
+-- If user greets you, greet them back. Nothing else. Never return any type of answer without user question.
+-- Craft a long response about the answer that covers everything about that topic. dont keep answers short. 
 After your conclusion, briefly summarize the entire response in a neat conversational way, making the user understand in under 200 lines.
 
 User Query: {user_input}
@@ -57,15 +59,15 @@ def interface(user_input, history):
 iface = gr.Interface(
     fn=interface, 
     inputs=[
-        gr.Textbox(label="Your Question:", placeholder="Type your PyTorch-related question here..."), 
+        gr.Textbox(label="Your Question:", placeholder="Type your PyTorch-related question here.", submit_btn=True), 
         gr.State(value=[]) # State input to keep conversation history
     ],
     outputs=[
-        gr.Textbox(label="Torchie Response", show_copy_button=True, interactive=True), 
+        gr.Textbox(label="Torchie Response", show_copy_button=True), 
         gr.State() # State output to hold and return the conversation history
     ],
     title="Torchie - Your PyTorch Assistant",
-    description="Hi! I'm Torchie, your friendly PyTorch assistant. Ask me anything about PyTorch, and I'll do my best to help."
+    description="Hi! I'm Torchie, your friendly PyTorch assistant. Ask me anything about PyTorch. :)"
 )
 
 iface.launch()
