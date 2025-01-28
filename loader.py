@@ -9,14 +9,14 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 
 warnings.filterwarnings('ignore')
-
+ 
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2", model_kwargs={"device": device})
 
 def read_docs_from_folder():
     loader = DirectoryLoader("./docs/", glob="**/*.txt", show_progress=True, loader_cls=lambda path: TextLoader(path, encoding='utf-8'))
-    docs = loader.load()
+    docs = loader.load() 
     
     text_splitter = RecursiveCharacterTextSplitter(chunk_size = 500,chunk_overlap = 50)
     

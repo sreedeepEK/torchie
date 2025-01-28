@@ -1,5 +1,5 @@
 import os
-import requests
+import requests 
 from bs4 import BeautifulSoup
 
 def extract_documentation(url):

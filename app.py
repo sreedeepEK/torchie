@@ -37,6 +37,7 @@ def chatbot_response(user_input, history):
         conversation_context = "\n\n".join([f"User: {q}\nTorchie: {r}" for q, r in history])
         llm_query = PROMPT_TEMPLATE.format(user_input=user_input, context=f"{conversation_context}\n\n{top_document}")
 
+
         # Get the LLM's response
         start_time = time.time()
         llm_answer = llm.invoke(llm_query)
@@ -60,11 +61,11 @@ iface = gr.Interface(
     fn=interface, 
     inputs=[
         gr.Textbox(label="Your Question:", placeholder="Type your PyTorch-related question here.", submit_btn=True), 
-        gr.State(value=[]) # State input to keep conversation history
+        gr.State(value=[]) # State input to keep conversation history 
     ],
     outputs=[
         gr.Textbox(label="Torchie Response", show_copy_button=True), 
-        gr.State() # State output to hold and return the conversation history
+        gr.State() # State output to hold and return the conversation history 
     ],
     title="Torchie - Your PyTorch Assistant",
     description="Hi! I'm Torchie, your friendly PyTorch assistant. Ask me anything about PyTorch. :)"
