@@ -1,7 +1,9 @@
 ## Torchie!
 
 ### Description
-Torchie is a tool designed to extract and retrieve information efficiently from PyTorch documentation. It aims to navigate the extensive PyTorch resources and provide quick access to relevant insights, making it easier for users to find the information they need without any hassle. [Click here to try Torchie.](https://huggingface.co/spaces/sreedeepEK/torchie)
+Torchie is a tool designed to extract and retrieve information efficiently from PyTorch documentation. It aims to navigate the extensive PyTorch resources and provide quick access to relevant insights, making it easier for users to find the information they need without any hassle. [Click here to try Torchie.](https://huggingface.co/spaces/sreedeepEK/torchie) 
+
+https://github.com/user-attachments/assets/c0f19b9e-5b69-4833-9a6e-a11345b9c2ca
 
 ### How to Run the Torchie App 
 
