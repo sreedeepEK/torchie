@@ -21,7 +21,7 @@ Response:
 """
 
 
-llm = ChatGroq(model='llama-3.1-8b-instant', temperature=1, max_retries=3)
+llm = ChatGroq(model='deepseek-r1-distill-llama-70b', temperature=1, max_retries=3)
 
 # Chatbot response function
 def chatbot_response(user_input, history):
